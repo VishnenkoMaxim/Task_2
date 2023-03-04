@@ -1,0 +1,3 @@
+C:/Repository/Task_2/cmake-build-debug/CMakeFiles/Task_2.dir
+C:/Repository/Task_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Repository/Task_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
