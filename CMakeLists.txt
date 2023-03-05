@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.24)
-project(Task_2)
-
 set(CMAKE_CXX_STANDARD 17)
+
+set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
+set(PROJECT_VERSION 0.0.${PATCH_VERSION})
+project(Task_2 VERSION  ${PROJECT_VERSION})
 
 set(TEST_BUILD  OFF)
 
@@ -16,3 +18,17 @@ else()
     message("production build")
     add_executable(Task_2 main.cpp main.h)
 endif()
+
+set_target_properties(Task_2 PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_compile_options(Task_2 PRIVATE -Wall -Wextra -pedantic)
+
+install(TARGETS Task_2 RUNTIME DESTINATION bin)
+set(CPACK_GENERATOR DEB)
+
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Vishnenko Maxim")
+
+include(CPack)

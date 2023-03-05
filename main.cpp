@@ -8,7 +8,7 @@
 #include "main.h"
 
 #ifdef TEST_BUILD
-    #include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #endif
 
 using namespace std;
@@ -27,8 +27,9 @@ vector<string> split(const string &str, char d){
 }
 
 void Print(const vector<vector<string>> &_vector){
+    unsigned int count = 0;
     for(auto ip = _vector.cbegin(); ip != _vector.cend(); ++ip){
-        for_each(ip->cbegin(), ip->cend(), [count=0, ip] (string val) mutable {
+        for_each(ip->cbegin(), ip->cend(), [count, ip] (string val) mutable {
             cout << val;
             if (count++ < ip->size()-1) cout << ".";
         });
@@ -38,12 +39,12 @@ void Print(const vector<vector<string>> &_vector){
 
 auto FindCase(const vector<vector<string>> &_vector, const tuple<unsigned int, unsigned int> *_filter, const int tuple_len) {
     vector<vector<string>> result_ip;
-    for (int j = 0; j < _vector.size(); j++) {
+    for (unsigned int j = 0; j < _vector.size(); j++) {
         int flag = tuple_len;
         for (int i = 0; i < tuple_len; i++) {
             unsigned int index = get<0>(_filter[i]);
             unsigned int val = get<1>(_filter[i]);
-            if (stoi(_vector[j][index]) == val) flag--;
+            if ((unsigned int) stoi(_vector[j][index]) == val) flag--;
         }
         if (!flag) result_ip.push_back(_vector[j]);
     }
@@ -52,9 +53,9 @@ auto FindCase(const vector<vector<string>> &_vector, const tuple<unsigned int, u
 
 vector<vector<string>> FindCase(const vector<vector<string>> &_vector, unsigned int val) {
     vector<vector<string>> result_ip;
-    for (int i = 0; i < _vector.size(); i++) {
-        for (int j = 0; j<_vector[i].size(); j++) {
-            if (stoi(_vector[i][j]) == val) {
+    for (unsigned int i = 0; i < _vector.size(); i++) {
+        for (unsigned int j = 0; j<_vector[i].size(); j++) {
+            if ((unsigned int) stoi(_vector[i][j]) == val) {
                 result_ip.push_back(_vector[i]);
                 break;
             }
@@ -65,7 +66,7 @@ vector<vector<string>> FindCase(const vector<vector<string>> &_vector, unsigned 
 
 void Sort(vector<vector<string>> &_vector){
     sort(_vector.begin(), _vector.end(), [](vector<string> &l1, vector<string> &l2) {
-        for(int i=0;i<l1.size();i++){
+        for(unsigned int i=0;i < l1.size();i++){
             if (stoi(l1[i]) > stoi(l2[i])) return true;
             else if (stoi(l1[i]) == stoi(l2[i])) continue;
             else return false;
@@ -74,11 +75,12 @@ void Sort(vector<vector<string>> &_vector){
     });
 }
 
-int main(int argc, char const *argv[]){
+int main(){
 
 #ifdef TEST_BUILD
     testing::InitGoogleTest();
     int test_stat = RUN_ALL_TESTS();
+    (void) test_stat;
 #endif
 
     try{
