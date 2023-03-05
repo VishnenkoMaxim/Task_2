@@ -1,0 +1,7 @@
+/GTest
+
+#ignore .obj files
+*.obj
+
+#ignore .log files
+*.log
