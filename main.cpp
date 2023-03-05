@@ -5,14 +5,14 @@
 #include <algorithm>
 #include <tuple>
 
+#include "main.h"
+
+#ifdef TEST_BUILD
+    #include <gtest/gtest.h>
+#endif
+
 using namespace std;
 
-// ("",  '.') -> [""]
-// ("11", '.') -> ["11"]
-// ("..", '.') -> ["", "", ""]
-// ("11.", '.') -> ["11", ""]
-// (".11", '.') -> ["", "11"]
-// ("11.22", '.') -> ["11", "22"]
 vector<string> split(const string &str, char d){
     vector<string> r;
     string::size_type start = 0;
@@ -50,7 +50,7 @@ auto FindCase(const vector<vector<string>> &_vector, const tuple<unsigned int, u
     return result_ip;
 }
 
-auto FindCase(const vector<vector<string>> &_vector, unsigned int val) {
+vector<vector<string>> FindCase(const vector<vector<string>> &_vector, unsigned int val) {
     vector<vector<string>> result_ip;
     for (int i = 0; i < _vector.size(); i++) {
         for (int j = 0; j<_vector[i].size(); j++) {
@@ -75,6 +75,12 @@ void Sort(vector<vector<string>> &_vector){
 }
 
 int main(int argc, char const *argv[]){
+
+#ifdef TEST_BUILD
+    testing::InitGoogleTest();
+    int test_stat = RUN_ALL_TESTS();
+#endif
+
     try{
         vector<vector<string>> ip_pool;
         for(string line; getline(cin, line);){
@@ -95,7 +101,7 @@ int main(int argc, char const *argv[]){
         Print(FindCase(ip_pool, (const tuple<unsigned int, unsigned int> *) &tup2, 2));
 
         // TODO filter by any byte and output
-        //Print(FindCase(ip_pool, 46));
+        Print(FindCase(ip_pool, 46));
     }
     catch(const exception &e){
         cerr << e.what() << endl;
