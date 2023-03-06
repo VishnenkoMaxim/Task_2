@@ -7,7 +7,7 @@
 
 #include "main.h"
 
-#ifdef INCLUDE_TESTS
+#ifdef TEST_BUILD
 #include <gtest/gtest.h>
 #endif
 
@@ -77,7 +77,7 @@ void Sort(vector<vector<string>> &_vector){
 
 int main(){
 
-#ifdef INCLUDE_TESTS
+#ifdef TEST_BUILD
     testing::InitGoogleTest();
     int test_stat = RUN_ALL_TESTS();
     (void) test_stat;

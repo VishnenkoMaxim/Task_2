@@ -5,11 +5,7 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 project(Task_2 VERSION  ${PROJECT_VERSION})
 
-set(TEST_BUILD OFF)
-
-if (${TEST_BUILD})
-    set(INCLUDE_TESTS "ENABLE")
-endif()
+set(TEST_BUILD ON)
 
 configure_file(version.h.in version.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
