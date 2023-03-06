@@ -1,0 +1,3 @@
+#pragma once
+
+#cmakedefine INCLUDE_TESTS @INCLUDE_TESTS@

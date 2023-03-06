@@ -7,7 +7,7 @@
 
 #include "main.h"
 
-#ifdef TEST_BUILD
+#ifdef INCLUDE_TESTS
 #include <gtest/gtest.h>
 #endif
 
@@ -66,7 +66,7 @@ vector<vector<string>> FindCase(const vector<vector<string>> &_vector, unsigned 
 
 void Sort(vector<vector<string>> &_vector){
     sort(_vector.begin(), _vector.end(), [](vector<string> &l1, vector<string> &l2) {
-        for(unsigned int i=0;i < l1.size();i++){
+        for(unsigned int i=0;i < l1.size(); i++){
             if (stoi(l1[i]) > stoi(l2[i])) return true;
             else if (stoi(l1[i]) == stoi(l2[i])) continue;
             else return false;
@@ -77,7 +77,7 @@ void Sort(vector<vector<string>> &_vector){
 
 int main(){
 
-#ifdef TEST_BUILD
+#ifdef INCLUDE_TESTS
     testing::InitGoogleTest();
     int test_stat = RUN_ALL_TESTS();
     (void) test_stat;
