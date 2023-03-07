@@ -3,9 +3,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
-project(Task_2 VERSION  ${PROJECT_VERSION})
+project(Task_2 VERSION ${PROJECT_VERSION})
 
-set(TEST_BUILD ON)
+set(TEST_BUILD OFF)
 
 configure_file(version.h.in version.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -19,7 +19,7 @@ if (${TEST_BUILD})
     target_link_libraries(Task_2 gtest)
 else()
     message("production build")
-    add_executable(Task_2 main.cpp main.h)
+    add_executable(Task_2 main.cpp)
 endif()
 
 set_target_properties(Task_2 PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)

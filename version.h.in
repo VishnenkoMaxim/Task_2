@@ -1,3 +1,4 @@
 #pragma once
 
 #cmakedefine TEST_BUILD @TEST_BUILD@
+#cmakedefine PROJECT_VERSION @PROJECT_VERSION@
