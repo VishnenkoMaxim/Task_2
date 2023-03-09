@@ -26,10 +26,10 @@ vector<string> split(const string &str, char d){
     return r;
 }
 
-void Print(const vector<vector<string>> &_vector){
+void Print(const vector<vector<unsigned short int>> &_vector){
     unsigned int count = 0;
     for(auto ip = _vector.cbegin(); ip != _vector.cend(); ++ip){
-        for_each(ip->cbegin(), ip->cend(), [count, ip] (string val) mutable {
+        for_each(ip->cbegin(), ip->cend(), [count, ip] (unsigned short int val) mutable {
             cout << val;
             if (count++ < ip->size()-1) cout << ".";
         });
@@ -37,38 +37,11 @@ void Print(const vector<vector<string>> &_vector){
     }
 }
 
-auto FindCase(const vector<vector<string>> &_vector, const tuple<unsigned int, unsigned int> *_filter, const int tuple_len) {
-    vector<vector<string>> result_ip;
-    for (unsigned int j = 0; j < _vector.size(); j++) {
-        int flag = tuple_len;
-        for (int i = 0; i < tuple_len; i++) {
-            unsigned int index = get<0>(_filter[i]);
-            unsigned int val = get<1>(_filter[i]);
-            if ((unsigned int) stoi(_vector[j][index]) == val) flag--;
-        }
-        if (!flag) result_ip.push_back(_vector[j]);
-    }
-    return result_ip;
-}
-
-vector<vector<string>> FindCase(const vector<vector<string>> &_vector, unsigned int val) {
-    vector<vector<string>> result_ip;
-    for (unsigned int i = 0; i < _vector.size(); i++) {
-        for (unsigned int j = 0; j<_vector[i].size(); j++) {
-            if ((unsigned int) stoi(_vector[i][j]) == val) {
-                result_ip.push_back(_vector[i]);
-                break;
-            }
-        }
-    }
-    return result_ip;
-}
-
-void Sort(vector<vector<string>> &_vector){
-    sort(_vector.begin(), _vector.end(), [](vector<string> &l1, vector<string> &l2) {
+void Sort(vector<vector<unsigned short int>> &_vector){
+    sort(_vector.begin(), _vector.end(), [](vector<unsigned short int> &l1, vector<unsigned short int> &l2) {
         for(unsigned int i=0;i < l1.size(); i++){
-            if (stoi(l1[i]) > stoi(l2[i])) return true;
-            else if (stoi(l1[i]) == stoi(l2[i])) continue;
+            if (l1[i] > l2[i]) return true;
+            else if (l1[i] == l2[i]) continue;
             else return false;
         }
         return false;
@@ -76,7 +49,6 @@ void Sort(vector<vector<string>> &_vector){
 }
 
 int main(){
-
 #ifdef TEST_BUILD
     testing::InitGoogleTest();
     int test_stat = RUN_ALL_TESTS();
@@ -84,26 +56,39 @@ int main(){
 #endif
 
     try{
-        vector<vector<string>> ip_pool;
+        vector<vector<unsigned short int>> ip_pool;
         for(string line; getline(cin, line);){
             auto v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
+            vector<string> tmp_vec = split(v.at(0), '.');
+            vector<unsigned short int> int_vec;
+            for(auto ip = tmp_vec.cbegin(); ip != tmp_vec.cend(); ++ip){
+                int_vec.push_back(stoi(*ip));
+            }
+            ip_pool.push_back(int_vec);
         }
 
         // TODO reverse lexicographically sort
         Sort(ip_pool);
         Print(ip_pool);
 
-        // TODO filter by first byte and output
-        auto tup = make_tuple(0,1);
-        Print(FindCase(ip_pool, (const tuple<unsigned int, unsigned int> *) &tup, 1));
+        vector<vector<unsigned short int>> result;
+        vector<vector<unsigned short int>> result_1;
+        vector<vector<unsigned short int>> result_2;
 
-        // TODO filter by first and second bytes and output
-        tuple<unsigned int, unsigned int> tup2[2] = {{0,46}, {1, 70}};
-        Print(FindCase(ip_pool, (const tuple<unsigned int, unsigned int> *) &tup2, 2));
+        auto check = [&result](const vector<unsigned short int> vector) {if (vector[0] == 1) result.push_back(vector);};
+        auto check_2 = [&result_1](const vector<unsigned short int> vector) {if (vector[0] == 46 && vector[1] == 70) result_1.push_back(vector);};
+        auto check_3 = [&result_2](const vector<unsigned short int> vector) {
+            if ( any_of(vector.cbegin(), vector.cend(), [](unsigned short int val) {return val == 46;}))
+                result_2.push_back(vector);
+        };
 
-        // TODO filter by any byte and output
-        Print(FindCase(ip_pool, 46));
+        for_each(ip_pool.cbegin(), ip_pool.cend(), check);
+        for_each(ip_pool.cbegin(), ip_pool.cend(), check_2);
+        for_each(ip_pool.cbegin(), ip_pool.cend(), check_3);
+
+        Print(result);
+        Print(result_1);
+        Print(result_2);
     }
     catch(const exception &e){
         cerr << e.what() << endl;
