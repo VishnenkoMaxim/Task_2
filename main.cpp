@@ -26,14 +26,19 @@ vector<string> split(const string &str, char d){
     return r;
 }
 
-void Print(const vector<vector<unsigned short int>> &_vector){
+void PrintIP(const vector<unsigned short int> &_vector){
     unsigned int count = 0;
+    for_each(_vector.cbegin(), _vector.cend(), [count, &_vector] (unsigned short int val) mutable {
+        cout << val;
+        if (count++ < _vector.size()-1) cout << ".";
+    });
+    cout << endl;
+
+}
+
+void Print(const vector<vector<unsigned short int>> &_vector){
     for(auto ip = _vector.cbegin(); ip != _vector.cend(); ++ip){
-        for_each(ip->cbegin(), ip->cend(), [count, ip] (unsigned short int val) mutable {
-            cout << val;
-            if (count++ < ip->size()-1) cout << ".";
-        });
-        cout << endl;
+        PrintIP(*ip);
     }
 }
 
@@ -46,6 +51,13 @@ void Sort(vector<vector<unsigned short int>> &_vector){
         }
         return false;
     });
+}
+
+template <class Operation>
+void FindCase(const vector<vector<unsigned short int>> &_vector, Operation oper){
+    for(auto ip = _vector.cbegin(); ip != _vector.cend(); ++ip){
+        if (oper(*ip)) PrintIP(*ip);
+    }
 }
 
 int main(){
@@ -71,24 +83,9 @@ int main(){
         Sort(ip_pool);
         Print(ip_pool);
 
-        vector<vector<unsigned short int>> result;
-        vector<vector<unsigned short int>> result_1;
-        vector<vector<unsigned short int>> result_2;
-
-        auto check = [&result](const vector<unsigned short int> vector) {if (vector[0] == 1) result.push_back(vector);};
-        auto check_2 = [&result_1](const vector<unsigned short int> vector) {if (vector[0] == 46 && vector[1] == 70) result_1.push_back(vector);};
-        auto check_3 = [&result_2](const vector<unsigned short int> vector) {
-            if ( any_of(vector.cbegin(), vector.cend(), [](unsigned short int val) {return val == 46;}))
-                result_2.push_back(vector);
-        };
-
-        for_each(ip_pool.cbegin(), ip_pool.cend(), check);
-        for_each(ip_pool.cbegin(), ip_pool.cend(), check_2);
-        for_each(ip_pool.cbegin(), ip_pool.cend(), check_3);
-
-        Print(result);
-        Print(result_1);
-        Print(result_2);
+        FindCase(ip_pool, [](const vector<unsigned short int> vector) {return vector[0] == 1;});
+        FindCase(ip_pool, [](const vector<unsigned short int> vector) {return (vector[0] == 46) && (vector[1] == 70);});
+        FindCase(ip_pool, [](const vector<unsigned short int> vector) {return any_of(vector.cbegin(), vector.cend(), [](unsigned short int val) {return val == 46;});});
     }
     catch(const exception &e){
         cerr << e.what() << endl;
