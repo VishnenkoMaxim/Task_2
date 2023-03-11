@@ -1,4 +1,3 @@
-/GTest
 /cmake-build-debug/Testing/Temporary
 
 #ignore .obj files
