@@ -83,9 +83,9 @@ int main(){
         Sort(ip_pool);
         Print(ip_pool);
 
-        FindCase(ip_pool, [](const vector<unsigned short int> vector) {return vector[0] == 1;});
-        FindCase(ip_pool, [](const vector<unsigned short int> vector) {return (vector[0] == 46) && (vector[1] == 70);});
-        FindCase(ip_pool, [](const vector<unsigned short int> vector) {return any_of(vector.cbegin(), vector.cend(), [](unsigned short int val) {return val == 46;});});
+        FindCase(ip_pool, [](const auto vector) {return vector[0] == 1;});
+        FindCase(ip_pool, [](const auto vector) {return (vector[0] == 46) && (vector[1] == 70);});
+        FindCase(ip_pool, [](const auto vector) {return any_of(vector.cbegin(), vector.cend(), [](auto val) {return val == 46;});});
     }
     catch(const exception &e){
         cerr << e.what() << endl;
